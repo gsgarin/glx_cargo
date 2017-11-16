@@ -79,12 +79,40 @@ class Backoffice extends CI_Controller {
         return false;
     }
 
+    function user(){
+		if ($this->is_logged_in() == true){
+			$data = array('uname' => $this->session->userdata('user_username'));
+			$getUserInfo = $this->users->getAdminInfo($data);
+			$data['nama_user'] = $getUserInfo['nama_lengkap'];
+
+			$data['var_title'] = APP_NAME;
+			$data['module_name'] = "raw-data";
+			$data['additional_css'] = "blank";
+			$data['additional_js'] = "blank";
+			$data['page'] = "index";
+
+			$this->crud->set_table('users');
+			$this->crud->where('id_user', $this->session->userdata('id_user'));
+			$this->crud->unset_add();
+			$this->crud->unset_delete();
+			$this->crud->unset_print();
+			$this->crud->edit_fields('username', 'nama_lengkap');
+			$this->crud->columns('username', 'nama_lengkap', 'level');
+
+			$output = $this->crud->render();  
+			$data['output'] = $output;  
+
+			$this->load->view('backend/admin_master', $data);
+		}else{
+			redirect('backoffice/index');
+		}
+	}
+
 
 	function raw_data()
 	{
 		if ($this->is_logged_in() == true) 
 		{
-			$data['menu_active'][0] = 'active';
 			$data['var_title'] = APP_NAME;
 			$data['module_name'] = "raw-data";
 			$data['additional_css'] = "blank";
