@@ -85,3 +85,5 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('APP_NAME', 'PT. GLX Kargo Logistik - Data Classifier');
+define('INITIAL', 'G<b>L</b>X');
+define('APP_VERSION', 'Alpha [1.0.3]');
