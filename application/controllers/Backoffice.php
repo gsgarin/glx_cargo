@@ -108,6 +108,7 @@ class Backoffice extends CI_Controller {
 
 			$this->load->view('backend/admin_master', $data);
 		}
+		return redirect('backoffice/index');
 	}
 }
  
