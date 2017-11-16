@@ -5,7 +5,7 @@
 */
 class User_access extends CI_Model{
 	function cekLoginAdmin($data){
-		$query = $this->db->get_where('users', array('username' => $data['uname'],'password' => $data['passwd']), 1);
+		$query = $this->db->get_where('users', array('username' => $data['uname'],'password' => md5($data['passwd'])), 1);
         if($query->num_rows() == 1){
             return 1;
         }else{
