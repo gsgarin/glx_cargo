@@ -1,3 +1,11 @@
+*******************
+Installation this project
+*******************
+1. Download this package
+2. set base_url at application/config/config.php
+3. import database to your local
+
+
 ###################
 What is CodeIgniter
 ###################
