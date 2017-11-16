@@ -103,9 +103,6 @@ class Backoffice extends CI_Controller {
 			$output = $this->crud->render();  
 			$data['output'] = $output;  
 
-
-
-
 			$this->load->view('backend/admin_master', $data);
 		}else{
 			redirect('backoffice/index');
