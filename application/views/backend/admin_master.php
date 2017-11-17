@@ -78,7 +78,7 @@
     $('input[name="daterange"]').daterangepicker({
         timePickerIncrement: 30,
         locale: {
-            format: 'YYYY-MM-DD'
+            format: 'YYYY'
         }
     });
 });

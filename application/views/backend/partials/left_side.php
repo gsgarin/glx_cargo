@@ -28,11 +28,11 @@
       <li class="header">MAIN NAVIGATION</li>
       <li class=""><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
       <li class=""><a href="<?=base_url()?>backoffice/raw_data"><i class="fa fa-database"></i> <span>Raw Data</span></a></li>
-      <!-- <li><a href="<?=base_url()?>backoffice/transaksi"><i class="fa fa-credit-card"></i> <span>Transaksi</span></a></li>
-      <li><a href="<?=base_url()?>backoffice/analisa/pre"><i class="fa fa-cogs"></i> <span>Analisis</span></a></li>
+      <li><a href="<?=base_url()?>backoffice/analyst/pre"><i class="fa fa-cogs"></i> <span>Analisis</span></a></li>
+
+      
       <li><a href="<?=base_url()?>backoffice/laporan"><i class="fa fa-line-chart"></i> <span>Laporan</span></a></li>
-      <li class="header">SERVICES</li>
-      <li><a href="<?=base_url()?>backoffice/menu_utama"><i class="fa fa-shopping-bag"></i> <span>Menu</span></a></li> -->
+      
       <li class="header">USER MANAGEMENT</li>
       <li><a href="<?=base_url()?>backoffice/user"><i class="icon ion-happy-outline"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;User</span></a></li>
       

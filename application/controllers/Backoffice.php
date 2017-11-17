@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+/**
+* @author: gsgarin;  
+*/
 class Backoffice extends CI_Controller {
 	protected $crud;
 	function __construct()
@@ -86,7 +88,7 @@ class Backoffice extends CI_Controller {
 			$data['nama_user'] = $getUserInfo['nama_lengkap'];
 
 			$data['var_title'] = APP_NAME;
-			$data['module_name'] = "raw-data";
+			$data['module_name'] = "user";
 			$data['additional_css'] = "blank";
 			$data['additional_js'] = "blank";
 			$data['page'] = "index";
@@ -96,7 +98,7 @@ class Backoffice extends CI_Controller {
 			$this->crud->unset_add();
 			$this->crud->unset_delete();
 			$this->crud->unset_print();
-			$this->crud->edit_fields('username', 'nama_lengkap');
+			$this->crud->edit_fields('username', 'nama_lengkap', 'skin');
 			$this->crud->columns('username', 'nama_lengkap', 'level');
 
 			$output = $this->crud->render();  
@@ -126,11 +128,47 @@ class Backoffice extends CI_Controller {
 
 			$this->crud->set_table('raw_data');
 
-
+			$this->crud->columns('customer', 'kota', 'qty', 'date');
 
 			$output = $this->crud->render();  
 			$data['output'] = $output;  
 
+			$this->load->view('backend/admin_master', $data);
+		}else{
+			redirect('backoffice/index');
+		}
+	}
+
+	function analyst($process = null)
+	{
+		if ($this->is_logged_in() == true) {
+			$data['var_title'] = APP_NAME;
+			$data['module_name'] = "analyst";
+			
+			$detail_user = array('uname' => $this->session->userdata('user_username'));
+			$getUserInfo = $this->users->getAdminInfo($detail_user);
+			$data['nama_user'] = $getUserInfo['nama_lengkap'];
+
+			if ($process == "pre" || is_null($process)) {
+				$data['additional_css'] = "blank";
+				$data['additional_js'] = "blank";
+				$data['page'] = "pre";	
+				$data_masuk_range = explode(' - ', $this->input->post('daterange'));
+
+				if (!empty($this->input->post('daterange'))) {
+					$data_masuk = array(
+									'user_id' => $this->session->userdata('id_user'),
+									'year_start' => $data_masuk_range[0],
+									'year_end' => $data_masuk_range[1],
+								);
+					$save = $this->items->save_pre($data_masuk);
+					redirect('backoffice/analyst/show_kota', 'refresh');
+				}
+			}
+			$this->crud->set_table('raw_data');
+
+			$output = $this->crud->render();  
+			$data['output'] = $output;  
 			$this->load->view('backend/admin_master', $data);
 		}else{
 			redirect('backoffice/index');
