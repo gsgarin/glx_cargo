@@ -137,9 +137,9 @@ class Backoffice extends CI_Controller {
 		}else{
 			redirect('backoffice/index');
 		}
-	}
+	} 
 
-	function analyst($process = null)
+	function analyst($process = null, $param1 = null, $param2 = null)
 	{
 		if ($this->is_logged_in() == true) {
 			$data['var_title'] = APP_NAME;
@@ -156,14 +156,26 @@ class Backoffice extends CI_Controller {
 				$data_masuk_range = explode(' - ', $this->input->post('daterange'));
 
 				if (!empty($this->input->post('daterange'))) {
+
 					$data_masuk = array(
 									'user_id' => $this->session->userdata('id_user'),
 									'year_start' => $data_masuk_range[0],
 									'year_end' => $data_masuk_range[1],
 								);
 					$save = $this->items->save_pre($data_masuk);
-					redirect('backoffice/analyst/show_kota', 'refresh');
+					redirect('backoffice/analyst/show_by_year/'.$data_masuk_range[0].'/'.$data_masuk_range[1], 'refresh');
 				}
+			}elseif ($process == "show_by_year") {
+				$data['additional_css'] = "blank";
+				$data['additional_js'] = "blank";
+				$data['page'] = "show_by_year";	
+				
+				//show data annyally group by nama kota and calculate all qty from same nama kota
+				$data['annually'] = $this->items->getAnnuallyFrom($param1, $param2);
+
+				//$data['sortingByCityAndDate'] = $this->items->getDetailData();
+				//print_r($data['annually']);
+				//exit();
 			}
 			$this->crud->set_table('raw_data');
 
