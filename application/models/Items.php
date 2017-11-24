@@ -38,4 +38,16 @@ class Items extends CI_Model{
 
     	return $query->result_array();
     }
+
+    function getAnnuallyCityFrom($startYear, $endYear, $city)
+    {
+        $this->db->select('*');
+        $this->db->where('kota', urldecode($city));
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->from('raw_data');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 } 

@@ -27,9 +27,9 @@
 
 /* Formatting function for row details - modify as you need */
 function format ( d ) {
-  console.log(d.id);
+  
     // `d` is the original data object for the row
-    return '<table id="example" class="table table-bordered table-striped">'+
+    return '<table id="table'+d.id+'" class="table table-bordered table-striped">'+
   '<thead>'+
   '<tr>'+
     '<th>Customer</th>'+
@@ -37,25 +37,6 @@ function format ( d ) {
     '<th width="100px">Tanggal</th>'+
   '</tr>'+
   '</thead>'+
-  '<tbody>'+
-  <?php 
-  $nomor = 1;
-
-  //foreach ($annually as $value):
-    foreach ($this->items->getDetailData("d.id") as $data):
-    ?>
-      '<tr>'+
-        '<td>'+
-        "<?php echo $data['customer']?>"+
-        '</td>'+
-        '<td><?php echo $data['kota']?></td>'+
-        '<td><?php echo $data['tanggal']?></td>'+
-      '</tr>'+
-      <?php 
-      $nomor++;
-    endforeach;
-  //endforeach; ?>
-  '</tbody>'+
   '<tfoot>'+
   '<tr>'+
     '<th>Customer</th>'+
@@ -95,11 +76,27 @@ $(document).ready(function() {
             tr.removeClass('shown');
         }
         else {
+          //console.log(row.data()['kota']);
+            var virtual_task_kota = row.data()['kota'];
+            var subtable_id = row.data()['id'];
             // Open this row
             row.child( format(row.data()) ).show();
             tr.addClass('shown');
+            sub_DataTable(virtual_task_kota, subtable_id);
         }
     } );
+
+    function sub_DataTable(vtask_kota, table_id) {
+    var subtable = $('#table'+table_id).DataTable({
+        ajax: "<?=base_url()?>backoffice/dataByCity/<?= $startYear ?>/<?=$endYear ?>/"+vtask_kota,
+        columns: [
+                  {"data": "customer"},
+                  {"data": "qty"},
+                  {"data": "tanggal"},
+            ],
+        order: [[2, 'asc']]
+    }); console.log(vtask_kota);
+  }
 } );
 
 </script>
