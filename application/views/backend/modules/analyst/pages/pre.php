@@ -6,7 +6,7 @@
 <?= form_open('backoffice/analyst/pre') ?>
 <div class="box box-primary">
 <div class="box-header">
-  <h3 class="box-title">Rule</h3>
+  <h3 class="box-title"><?=$page_name?></h3>
 </div>
 <div class="box-body">
   <div class="row">
