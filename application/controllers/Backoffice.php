@@ -157,13 +157,21 @@ class Backoffice extends CI_Controller {
 				$data_masuk_range = explode(' - ', $this->input->post('daterange'));
 
 				if (!empty($this->input->post('daterange'))) {
+					//count total data form filter
+					$CountQty = $this->items->getTotalQty($data_masuk_range[0], $data_masuk_range[1]);
 
 					$data_masuk = array(
 									'user_id' => $this->session->userdata('id_user'),
 									'year_start' => $data_masuk_range[0],
 									'year_end' => $data_masuk_range[1],
+									'total_qty' => $CountQty['qty'],
 								);
-					$save = $this->items->save_pre($data_masuk);
+					//check is there, dont save
+					$is_there_rule = $this->items->is_there_rule($data_masuk_range[0], $data_masuk_range[1]);
+					if ($is_there_rule != 1) {
+						$save = $this->items->save_pre($data_masuk);
+					}
+					
 					redirect('backoffice/analyst/show_by_year/'.$data_masuk_range[0].'/'.$data_masuk_range[1], 'refresh');
 				}
 			}elseif ($process == "show_by_year") {
@@ -174,16 +182,18 @@ class Backoffice extends CI_Controller {
 				$data['startYear'] = $param1;
 				$data['endYear'] = $param2;
 				
-				//show data annyally group by nama kota and calculate all qty from same nama kota
+				//show data annually group by nama kota and calculate all qty has same nama kota
 				$data['annually'] = $this->items->getAnnuallyFrom($param1, $param2);
 			}elseif ($process == "show_by_month") {
+				$data['month'] = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 				$data['additional_css'] = "blank";
 				$data['additional_js'] = "blank";
 				$data['page'] = "show_by_month";	
-				$data['page_name'] = "Menampilkan data bulan ". $param4;	
+				$data['page_name'] = "Menampilkan data bulan ". $data['month'][$param4];	
 				$data['startYear'] = $param1;
 				$data['endYear'] = $param2;
 
+				
 
 
 

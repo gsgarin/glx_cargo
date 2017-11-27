@@ -5,12 +5,12 @@
 */
 class Items extends CI_Model{
 	/**
-	 * Save rule for data analyst
+	 * Save rule for data rule_analyst
 	 * @param  [type] $data [description]
 	 * @return [type]       [description]
 	 */
     function save_pre($data){
-        $this->db->insert('analyst', $data);
+        $this->db->insert('rule_analyst', $data);
     }
     /**
      * show data annyally group by nama kota and calculate all qty from same nama kota
@@ -29,14 +29,16 @@ class Items extends CI_Model{
 
     }
 
-    function getDetailData($id)
+    function getTotalQty($startYear, $endYear)
     {
-    	$this->db->select('*');
-    	$this->db->from('raw_data');
-    	$this->db->where('id', $id);
-    	$query = $this->db->get();
+        $this->db->select_sum('qty');
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->from('raw_data');
 
-    	return $query->result_array();
+        $query = $this->db->get();
+
+        return $query->row_array();
+
     }
 
     function getAnnuallyCityFrom($startYear, $endYear, $city)
@@ -49,5 +51,14 @@ class Items extends CI_Model{
         $query = $this->db->get();
 
         return $query->result_array();
+    }
+
+    function is_there_rule($startYear, $endYear){
+        $query = $this->db->get_where('rule_analyst', array('year_start' => $startYear,'year_end' => $endYear), 1);
+        if($query->num_rows() == 1){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 } 
