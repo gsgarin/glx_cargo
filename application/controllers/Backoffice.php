@@ -192,7 +192,15 @@ class Backoffice extends CI_Controller {
 				$data['page_name'] = "Menampilkan data bulan ". $data['month'][$param4];	
 				$data['startYear'] = $param1;
 				$data['endYear'] = $param2;
+				$detail_data = $this->items->get_detail_data($param3);
 
+				
+				for ($i=1; $i <= 100; $i++) { 
+					$cityByQty = $this->items->get_city_by_qty($detail_data['kota'], $i, $param1, $param2);	
+					print_r($cityByQty);
+					echo "<br><br><br><br>";
+				}
+				exit();
 				
 
 

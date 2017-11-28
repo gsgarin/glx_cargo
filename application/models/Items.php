@@ -61,4 +61,27 @@ class Items extends CI_Model{
             return 0;
         }
     }
+
+    function get_city_by_qty($city, $qty, $startYear, $endYear)
+    {
+        $this->db->select('*');
+        $this->db->where('kota', $city);
+        $this->db->where('qty', $qty);
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->from('raw_data');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    function get_detail_data($id)
+    {
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $this->db->from('raw_data');
+
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 } 
