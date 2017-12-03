@@ -12,29 +12,6 @@ MySQL - 10.1.26-MariaDB : Database - glx
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`glx` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `glx`;
-
-/*Table structure for table `analyst` */
-
-DROP TABLE IF EXISTS `analyst`;
-
-CREATE TABLE `analyst` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `year_start` year(4) NOT NULL,
-  `year_end` year(4) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
-/*Data for the table `analyst` */
-
-insert  into `analyst`(`id`,`user_id`,`year_start`,`year_end`,`created_at`) values 
-(2,1,2016,2017,'2017-11-24 23:37:36'),
-(3,1,2016,2017,'2017-11-25 02:17:34');
-
 /*Table structure for table `raw_data` */
 
 DROP TABLE IF EXISTS `raw_data`;
@@ -10054,6 +10031,56 @@ insert  into `raw_data`(`id`,`customer`,`kota`,`qty`,`tanggal`,`created_at`,`upd
 (19998,'Shields-Stanton','Yogyakarta',23,'2016-01-20','2017-11-24 17:53:56','2017-11-24 17:53:56'),
 (19999,'Greenfelder Ltd','Kendal',16,'2016-07-20','2017-11-24 17:53:56','2017-11-24 17:53:56'),
 (20000,'Roob-Adams','Yogyakarta',30,'2015-04-02','2017-11-24 17:53:56','2017-11-24 17:53:56');
+
+/*Table structure for table `result_analyst` */
+
+DROP TABLE IF EXISTS `result_analyst`;
+
+CREATE TABLE `result_analyst` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rule_id` int(11) DEFAULT NULL,
+  `bulan` varchar(20) DEFAULT NULL,
+  `hasil_probabilitas` varchar(40) DEFAULT NULL,
+  `qty` varchar(40) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+/*Data for the table `result_analyst` */
+
+insert  into `result_analyst`(`id`,`rule_id`,`bulan`,`hasil_probabilitas`,`qty`,`created_at`) values 
+(2,15,'Januari','0.00010365283504225','4','2017-12-04 01:35:58'),
+(3,15,'Februari','0.000082826520169215','4','2017-12-04 01:40:05'),
+(4,15,'Maret','0.00009353818209531','21','2017-12-04 01:40:55'),
+(5,15,'April','0.00007315179270559','20','2017-12-04 01:41:00'),
+(6,15,'Mei','0.000095796797761281','20','2017-12-04 01:41:09'),
+(7,15,'Juni','0.000084312189598249','20','2017-12-04 01:41:14'),
+(8,15,'Juli','0.000076475035225044','30','2017-12-04 01:41:18'),
+(9,15,'Agustus','0.00007982198833574','20','2017-12-04 01:41:22'),
+(10,15,'September','0.000078273313513848','24','2017-12-04 01:41:26'),
+(11,15,'Oktober','0.00010291986260789','10','2017-12-04 01:41:30'),
+(12,15,'November','0.00008561192924105','21','2017-12-04 01:41:35'),
+(13,15,'Desember','0.000087218811589504','20','2017-12-04 01:41:44');
+
+/*Table structure for table `rule_analyst` */
+
+DROP TABLE IF EXISTS `rule_analyst`;
+
+CREATE TABLE `rule_analyst` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `year_start` year(4) NOT NULL,
+  `year_end` year(4) NOT NULL,
+  `total_qty` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+/*Data for the table `rule_analyst` */
+
+insert  into `rule_analyst`(`id`,`user_id`,`year_start`,`year_end`,`total_qty`,`created_at`) values 
+(15,1,2016,2017,25872,'2017-11-26 20:48:52'),
+(16,1,2015,2017,52296,'2017-11-26 20:49:48');
 
 /*Table structure for table `users` */
 
