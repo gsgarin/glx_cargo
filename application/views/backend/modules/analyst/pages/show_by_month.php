@@ -1,8 +1,9 @@
 <div class="box box-primary">
   <div class="box-header">
     <i class="ion ion-clipboard"></i>
-
-    <h3 class="box-title"><?=$page_name?></h3>
+    
+    <h3 class="box-title" align="center"><?=$page_name?></h3>
+    <a href="<?=$next_step?>" class="btn btn-success pull-right">Next &raquo; </a>
     <br><br>
 
     <div class="box-tools pull-right">
@@ -24,22 +25,59 @@
 
 <!-- DataTables -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/adminlte/plugins/datatables/dataTables.bootstrap.css">
-<table id="example" class="table table-bordered table-striped">
+<table id="example1" class="table table-bordered table-striped">
   <thead>
   <tr>
-    <th></th>
-    <th>Kota</th>
-    <th>Kuantitas</th>
-    <th>Action</th>
+    <th>Prob Qty</th>
+    <th><?=$total_qty?></th>
+    <th>Jumlah Nilai Qty</th>
+    <th>Kota dan Qty</th>
+    <th>Hasil Bagi(Kota & Qty)</th>
+    <th>Bulan dan Qty</th>
+    <th>Hasil Bagi(Bulan & Qty)</th>
+    <th>Bayes</th>
   </tr>
   </thead>
+
+  <tbody>
+    <?php foreach ($result_by_month as $item) {
+        if ($item['bayes'] == $max_value) { ?>
+          <tr style="background-color: red">
+            <td><?=$item['prob_qty']?></td>
+            <td><?=$item['percentage']?></td>
+            <td><?=$item['nilai_qty']?></td>
+            <td><?=$item['cond_kota_qty']?></td>
+            <td><?=$item['bagi_kota_qty']?></td>
+            <td><?=$item['cond_bulan_qty']?></td>
+            <td><?=$item['bagi_bulan_qty']?></td>
+            <td><?=$item['bayes']?></td>
+          </tr>
+        <?php } else{
+     ?>
+    <tr>
+      <td><?=$item['prob_qty']?></td>
+      <td><?=$item['percentage']?></td>
+      <td><?=$item['nilai_qty']?></td>
+      <td><?=$item['cond_kota_qty']?></td>
+      <td><?=$item['bagi_kota_qty']?></td>
+      <td><?=$item['cond_bulan_qty']?></td>
+      <td><?=$item['bagi_bulan_qty']?></td>
+      <td><?=$item['bayes']?></td>
+    </tr>
+    <?php } } ?>
+    
+  </tbody>
   
   <tfoot>
   <tr>
-    <th></th>
-    <th>Kota</th>
-    <th>Kuantitas</th>
-    <th>Action</th>
+    <th>Prob Qty</th>
+    <th><?=$total_qty?></th>
+    <th>Jumlah Nilai Qty</th>
+    <th>Kota dan Qty</th>
+    <th>Hasil Bagi(Kota & Qty)</th>
+    <th>Bulan dan Qty</th>
+    <th>Hasil Bagi(Bulan & Qty)</th>
+    <th>Bayes</th>
   </tr>
   </tfoot>
 </table>
@@ -48,8 +86,11 @@
   </div>
   <!-- /.box-body -->
   <div class="box-footer clearfix no-border">
-    <!-- <button type="submit" class="btn btn-warning pull-right">Next &raquo; </button> -->
-    <a href="#" class="btn btn-warning pull-right">Next &raquo; </a>
+    <?php if ($previous == true) { ?>
+      <a href="<?=$prev_step?>" class="btn btn-warning pull-left">&laquo;  Previous </a>
+    <?php } ?>
+    
+    <a href="<?=$next_step?>" class="btn btn-success pull-right">Next &raquo; </a>
   </div>
 </div>
 <!-- /.box -->
@@ -63,81 +104,5 @@
     });
   });
 
-/* Formatting function for row details - modify as you need */
-function format ( d ) {
-    // `d` is the original data object for the row
-    return '<table id="table'+d.id+'" class="table table-bordered table-striped">'+
-              '<thead>'+
-              '<tr>'+
-                '<th>Customer</th>'+
-                '<th width="30px">Kuantitas</th>'+
-                '<th width="100px">Tanggal</th>'+
-              '</tr>'+
-              '</thead>'+
-              '<tfoot>'+
-              '<tr>'+
-                '<th>Customer</th>'+
-                '<th width="30px">Kuantitas</th>'+
-                '<th width="100px">Tanggal</th>'+
-              '</tr>'+
-              '</tfoot>'+
-            '</table>';
-            }
- 
-$(document).ready(function() {
-  
-    var table = $('#example').DataTable( {
-        data: <?=json_encode($annually)?>,
-        "columns": [
-            {
-                "className":      'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": '',
-            },
-            { "data": "kota"},
-            { "data": "qty"},
-            { "data": "id", "render": function(data,type,full,meta)
-                { 
-                  return '<a href=<?=base_url(array('backoffice', 'analyst', 'show_by_month', $startYear, $endYear))?>/'+data+'/1>Proses Data</a>';
-                }
-            }
-        ],
-        "order": [[2, 'asc']],
-    } );
-     
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
-        
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-          //console.log(row.data()['kota']);
-            var virtual_task_kota = row.data()['kota'];
-            var subtable_id = row.data()['id'];
-            // Open this row
-            row.child( format(row.data()) ).show();
-            tr.addClass('shown');
-            sub_DataTable(virtual_task_kota, subtable_id);
-        }
-    } );
-
-    function sub_DataTable(vtask_kota, table_id) {
-    var subtable = $('#table'+table_id).DataTable({
-        ajax: "<?=base_url()?>backoffice/dataByCity/<?= $startYear ?>/<?=$endYear ?>/"+vtask_kota,
-        columns: [
-                  {"data": "customer"},
-                  {"data": "qty"},
-                  {"data": "tanggal"},
-            ],
-        order: [[2, 'asc']]
-    }); console.log(vtask_kota);
-  }
-} );
 
 </script>

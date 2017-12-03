@@ -188,19 +188,81 @@ class Backoffice extends CI_Controller {
 				$data['month'] = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 				$data['additional_css'] = "blank";
 				$data['additional_js'] = "blank";
-				$data['page'] = "show_by_month";	
-				$data['page_name'] = "Menampilkan data bulan ". $data['month'][$param4];	
+				
 				$data['startYear'] = $param1;
 				$data['endYear'] = $param2;
 				$detail_data = $this->items->get_detail_data($param3);
-
+				$detail_rule = $this->items->get_detail_rule($param1, $param2);
 				
-				for ($i=1; $i <= 100; $i++) { 
-					$cityByQty = $this->items->get_city_by_qty($detail_data['kota'], $i, $param1, $param2);	
-					print_r($cityByQty);
-					echo "<br><br><br><br>";
+				
+				$result_by_month = [];
+				if ($param4 > 0 && $param4 < 13) {
+					for ($i=1; $i <= 100; $i++) { 
+						$cityByQty = $this->items->count_qty_by_rule($detail_data['kota'], $i, $param1, $param2);	
+						$count_city_and_qty_by_rule = $this->items->count_city_and_qty_by_rule($detail_data['kota'], $i, $param1, $param2);	
+						$count_qty_and_month_by_rule = $this->items->count_qty_and_month_by_rule($param4, $i, $param1, $param2);	
+						$bagi_kota_qty = 0;
+						$bagi_bulan_qty = 0;
+						if ($cityByQty != 0) {
+							$bagi_kota_qty = $count_city_and_qty_by_rule/$cityByQty;
+							$bagi_bulan_qty = $count_qty_and_month_by_rule/$cityByQty;
+						}
+						$result_by_month[$i] = [
+												'prob_qty' => $i,
+												'nilai_qty' => $cityByQty,
+												'percentage' => $cityByQty/$detail_rule['total_qty'],
+												'cond_kota_qty' => $count_city_and_qty_by_rule,
+												'bagi_kota_qty' => $bagi_kota_qty,
+												'cond_bulan_qty' => $count_qty_and_month_by_rule,
+												'bagi_bulan_qty' => $bagi_bulan_qty,
+												'bayes' => ($cityByQty/$detail_rule['total_qty'])*$bagi_kota_qty*$bagi_bulan_qty,
+											];
+					}
+					$data['page'] = "show_by_month";	
+					$data['page_name'] = "Menampilkan data bulan ". $data['month'][$param4]. " pada kota ".$detail_data['kota'];	
+					$data['total_qty'] = $detail_rule['total_qty'];
+					$data['max_value'] = $max_value = max(array_column($result_by_month, 'bayes'));
+					$data['result_by_month'] = $result_by_month;
+					$data['next_step'] = $param4 + 1;
+					if ($data['next_step'] == 13) {
+						$data['next_step'] = 'finish';
+					}
+					$data['previous'] = false;
+					$data['prev_step'] = $param4 - 1;
+					if ($param4 != 1) {
+						$data['previous'] = true;
+					}
+					$max_value = max(array_column($result_by_month, 'bayes'));
+					$high = array_filter($result_by_month, function($var) use ($max_value){
+						return ($var['bayes'] == $max_value);
+					});
+					$hasil_probabilitas = 0;
+					foreach ($result_by_month as $item) {
+						$hasil_probabilitas += $item['bayes'];
+					}
+					$qty_by_high = array_column($high, 'prob_qty');
+					$qty_by_high = implode("", $qty_by_high);
+					//need to save result
+					$data_result = array(
+										'rule_id' => $detail_rule['id'],
+										'bulan' => $data['month'][$param4],
+										'hasil_probabilitas' => $hasil_probabilitas,
+										'qty' => $qty_by_high,
+									);
+					$is_there_result = $this->items->is_there_result($data_result);
+					if ($is_there_result  != 1) {
+						$this->items->save_result($data_result);
+					}
+					
+				}elseif ($param4 == 'finish') {
+					$data['page'] = "result_analyst";
+					$data['page_name'] = "Rekap data dari ".$param1." hingga ".$param2." pada kota ".$detail_data['kota'];	
+					$data['get_result_by_rule'] = $this->items->get_result_by_rule($detail_rule['id']);
+					$data['prev_step'] = 12;
+
+
 				}
-				exit();
+
 				
 
 
