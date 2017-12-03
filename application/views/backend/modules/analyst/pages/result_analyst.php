@@ -27,6 +27,7 @@
 <table id="example1" class="table table-bordered table-striped">
   <thead>
   <tr>
+    <th>#</th>
     <th>Bulan</th>
     <th>Hasil Probabilitas</th>
     <th>Qty</th>
@@ -34,18 +35,20 @@
   </thead>
 
   <tbody>
-    <?php foreach ($get_result_by_rule as $item) { ?>
+    <?php $count = 1; foreach ($get_result_by_rule as $item) { ?>
       <tr>
+        <td><?=$count?></td>
         <td><?=$item['bulan']?></td>
         <td><?=$item['hasil_probabilitas']?></td>
         <td><?=$item['qty']?></td>
       </tr>
-    <?php } ?>
+    <?php $count++; } ?>
     
   </tbody>
   
   <tfoot>
   <tr>
+    <th>#</th>
     <th>Bulan</th>
     <th>Hasil Probabilitas</th>
     <th>Qty</th>
