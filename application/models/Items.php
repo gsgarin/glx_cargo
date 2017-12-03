@@ -19,7 +19,7 @@ class Items extends CI_Model{
     {
     	$this->db->select('*');
     	$this->db->select_sum('qty');
-    	$this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+    	$this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
     	$this->db->group_by('kota');
     	$this->db->from('raw_data');
 
@@ -32,7 +32,7 @@ class Items extends CI_Model{
     function getTotalQty($startYear, $endYear)
     {
         $this->db->select_sum('qty');
-        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
         $this->db->from('raw_data');
 
         $query = $this->db->get();
@@ -45,7 +45,7 @@ class Items extends CI_Model{
     {
         $this->db->select('*');
         $this->db->where('kota', urldecode($city));
-        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
         $this->db->from('raw_data');
 
         $query = $this->db->get();
@@ -66,7 +66,7 @@ class Items extends CI_Model{
     {
         $this->db->select('*');
         $this->db->where('qty', $qty);
-        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
         $this->db->from('raw_data');
         return $this->db->count_all_results();
     }
@@ -76,7 +76,7 @@ class Items extends CI_Model{
         $this->db->select('*');
         $this->db->where('kota', $city);
         $this->db->where('qty', $qty);
-        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
         $this->db->from('raw_data');
         return $this->db->count_all_results();
     }
@@ -86,7 +86,7 @@ class Items extends CI_Model{
         $this->db->select('*');
         $this->db->where('qty', $qty);
         $this->db->where('MONTH(tanggal)', $month);
-        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-01-01')).'"');
+        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
         $this->db->from('raw_data');
         return $this->db->count_all_results();
     }
@@ -114,7 +114,7 @@ class Items extends CI_Model{
 
     function is_there_result($data)
     {
-        $query = $this->db->get_where('result_analyst', array('bulan' => $data['bulan'], 'hasil_probabilitas' => $data['hasil_probabilitas'], 'qty' => $data['qty']), 1);
+        $query = $this->db->get_where('result_analyst', array('kota' => $data['kota'],'bulan' => $data['bulan'], 'hasil_probabilitas' => $data['hasil_probabilitas'], 'qty' => $data['qty']), 1);
         if($query->num_rows() == 1){
             return 1;
         }else{
@@ -127,10 +127,11 @@ class Items extends CI_Model{
         $this->db->insert('result_analyst', $data);
     }
 
-    function get_result_by_rule($id)
+    function get_result_by_rule($rule_id, $city)
     {
         $this->db->select('*');
-        $this->db->where('rule_id', $id);
+        $this->db->where('rule_id', $rule_id);
+        $this->db->where('kota', $city);
         $this->db->from('result_analyst');
 
         $query = $this->db->get();

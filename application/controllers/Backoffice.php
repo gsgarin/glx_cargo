@@ -245,6 +245,7 @@ class Backoffice extends CI_Controller {
 					//need to save result
 					$data_result = array(
 										'rule_id' => $detail_rule['id'],
+										'kota'	=> $detail_data['kota'],
 										'bulan' => $data['month'][$param4],
 										'hasil_probabilitas' => $hasil_probabilitas,
 										'qty' => $qty_by_high,
@@ -257,7 +258,7 @@ class Backoffice extends CI_Controller {
 				}elseif ($param4 == 'finish') {
 					$data['page'] = "result_analyst";
 					$data['page_name'] = "Rekap data dari ".$param1." hingga ".$param2." pada kota ".$detail_data['kota'];	
-					$data['get_result_by_rule'] = $this->items->get_result_by_rule($detail_rule['id']);
+					$data['get_result_by_rule'] = $this->items->get_result_by_rule($detail_rule['id'], $detail_data['kota']);
 					$data['prev_step'] = 12;
 
 
