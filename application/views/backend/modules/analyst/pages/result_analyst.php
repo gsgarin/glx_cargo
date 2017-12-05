@@ -30,6 +30,7 @@
     <th>#</th>
     <th>Bulan</th>
     <th>Hasil Probabilitas</th>
+    <th>Probabilitas Tertinggi</th>
     <th>Qty</th>
   </tr>
   </thead>
@@ -40,6 +41,7 @@
         <td><?=$count?></td>
         <td><?=$item['bulan']?></td>
         <td><?=$item['hasil_probabilitas']?></td>
+        <td><?=$item['probabilitas_tertinggi']?></td>
         <td><?=$item['qty']?></td>
       </tr>
     <?php $count++; } ?>
@@ -51,6 +53,7 @@
     <th>#</th>
     <th>Bulan</th>
     <th>Hasil Probabilitas</th>
+    <th>Probabilitas Tertinggi</th>
     <th>Qty</th>
   </tr>
   </tfoot>

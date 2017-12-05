@@ -138,4 +138,11 @@ class Items extends CI_Model{
 
         return $query->result_array();
     }
+
+    function get_rule_list()
+    {
+        $query = $this->db->get('rule_analyst');
+        return $query->result_array();
+
+    }
 } 
