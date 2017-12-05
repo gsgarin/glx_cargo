@@ -66,7 +66,7 @@
 <script src="<?= base_url() ?>assets/adminlte/dist/js/demo.js"></script>
 
 <!-- /.box -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="<?= base_url() ?>assets/adminlte/plugins/daterangepicker/moment.min.js"></script>
 <!-- date range -->
 <script src="<?=base_url()?>assets/adminlte/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- bootstrap datepicker -->
