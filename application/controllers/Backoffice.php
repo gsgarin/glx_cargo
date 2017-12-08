@@ -198,7 +198,7 @@ class Backoffice extends CI_Controller {
 				$result_by_month = [];
 				if ($param4 > 0 && $param4 < 13) {
 					for ($i=1; $i <= 100; $i++) { 
-						$cityByQty = $this->items->count_qty_by_rule($detail_data['kota'], $i, $param1, $param2);	
+						$cityByQty = $this->items->count_jumlah_nilai_qty($detail_data['kota'], $i, $param1, $param2);	
 						$count_city_and_qty_by_rule = $this->items->count_city_and_qty_by_rule($detail_data['kota'], $i, $param1, $param2);	
 						$count_qty_and_month_by_rule = $this->items->count_qty_and_month_by_rule($param4, $i, $param1, $param2);	
 						$bagi_kota_qty = 0;

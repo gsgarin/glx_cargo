@@ -62,11 +62,11 @@ class Items extends CI_Model{
         }
     }
 
-    function count_qty_by_rule($city, $qty, $startYear, $endYear)
+    function count_jumlah_nilai_qty($city, $qty, $startYear, $endYear)
     {
         $this->db->select('*');
         $this->db->where('qty', $qty);
-        $this->db->where('tanggal BETWEEN "'.date('Y-m-d', strtotime($startYear.'-01-01')).'" AND "'. date('Y-m-d', strtotime($endYear.'-12-31')).'"');
+        $this->db->where('kota', $city);
         $this->db->from('raw_data');
         return $this->db->count_all_results();
     }

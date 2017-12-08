@@ -18,8 +18,8 @@
   </div>
   <!-- /.box-header -->
   <div class="box-body">
-    
-    
+    Total akumulasi qty dari data tahun <?=$startYear?> sampai tahun <?=$endYear?> = <?=$total_qty?>
+    <br><br><br>
     
 
 
@@ -29,8 +29,8 @@
   <thead>
   <tr>
     <th>Prob Qty</th>
-    <th><?=$total_qty?></th>
     <th>Jumlah Nilai Qty</th>
+    <th>Percentage</th>
     <th>Kota dan Qty</th>
     <th>Hasil Bagi(Kota & Qty)</th>
     <th>Bulan dan Qty</th>
@@ -56,8 +56,8 @@
      ?>
     <tr>
       <td><?=$item['prob_qty']?></td>
-      <td><?=$item['percentage']?></td>
       <td><?=$item['nilai_qty']?></td>
+      <td><?=$item['percentage']?></td>
       <td><?=$item['cond_kota_qty']?></td>
       <td><?=$item['bagi_kota_qty']?></td>
       <td><?=$item['cond_bulan_qty']?></td>
@@ -71,8 +71,8 @@
   <tfoot>
   <tr>
     <th>Prob Qty</th>
-    <th><?=$total_qty?></th>
     <th>Jumlah Nilai Qty</th>
+    <th>Percentage</th>
     <th>Kota dan Qty</th>
     <th>Hasil Bagi(Kota & Qty)</th>
     <th>Bulan dan Qty</th>
@@ -106,3 +106,4 @@
 
 
 </script>
+
