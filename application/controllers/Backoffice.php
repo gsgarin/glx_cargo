@@ -276,7 +276,7 @@ class Backoffice extends CI_Controller {
 		}
 	}
 
-	public function laporan($year_start = null, $year_end = null)
+	public function laporan($rule_id = null, $year_start = null, $year_end = null)
 	{
 		if ($this->is_logged_in() == true) 
 		{
@@ -284,22 +284,27 @@ class Backoffice extends CI_Controller {
 			$data['module_name'] = "laporan";
 			$data['additional_css'] = "blank";
 			$data['additional_js'] = "blank";
-			$data['page'] = "laporan_option";
-			$data['page_name'] = "Pilih Hasil Analis";	
 			$detail_user = array('uname' => $this->session->userdata('user_username'));
 			$getUserInfo = $this->users->getAdminInfo($detail_user);
 			$data['nama_user'] = $getUserInfo['nama_lengkap'];
+			if (empty($year_end && $year_start)) {
+				$data['page_name'] = "Pilih Hasil Analis";	
+				$data['page'] = "laporan_option";
+				$data['rule_list'] = $this->items->get_rule_list();
+			}else{
+				$data['page_name'] = "Laporan dari tahun ". $year_start . " hingga ".$year_end;	
+				$data['page'] = "hasil";
+				$this->crud->unset_add();
+				$this->crud->unset_delete();
+				$this->crud->unset_edit();
+				$this->crud->set_table('result_analyst');
+				$this->crud->where('rule_id', $rule_id);
 
-			$data['rule_list'] = $this->items->get_rule_list();
+				$this->crud->columns('kota', 'bulan', 'hasil_probabilitas', 'probabilitas_tertinggi', 'qty');
 
-
-
-
-
-			/*$this->crud->set_table('raw_data');
-			$output = $this->crud->render();  
-			$data['output'] = $output;  */
-
+				$output = $this->crud->render();  
+				$data['output'] = $output;  
+			}
 			$this->load->view('backend/admin_master', $data);
 		}else{
 			redirect('backoffice/index');

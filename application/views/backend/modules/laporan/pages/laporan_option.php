@@ -44,8 +44,11 @@
         <td><?=$item['total_qty']?></td>
         <td>
         	<a class="btn btn-primary" href="<?=base_url()?>backoffice/analyst/show_by_year/<?=$item['year_start']?>/<?=$item['year_end']?>"><i class="fa fa-gears"></i> Analisa</a>
-        	|
-        	<a class="btn btn-success" href="<?=base_url()?>backoffice/laporan/<?=$item['year_start']?>/<?=$item['year_end']?>"><i class="fa fa-book"></i> Laporan</a>
+          <?php if ($this->items->count_result($item['id']) != 0) { ?>
+          |
+            <a class="btn btn-success" href="<?=base_url()?>backoffice/laporan/<?=$item['id']?>/<?=$item['year_start']?>/<?=$item['year_end']?>"><i class="fa fa-book"></i> Laporan</a>  
+          <?php } ?>
+        	
         </td>
       </tr>
     <?php $count++; } ?>
