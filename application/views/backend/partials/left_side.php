@@ -34,7 +34,7 @@
       <li><a href="<?=base_url()?>backoffice/laporan"><i class="fa fa-line-chart"></i> <span>Laporan</span></a></li>
       
       <li class="header">USER MANAGEMENT</li>
-      <li><a href="<?=base_url()?>backoffice/user"><i class="icon ion-happy-outline"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;User</span></a></li>
+      <li><a href="<?=base_url()?>backoffice/user"><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;User</span></a></li>
       
       
     </ul>

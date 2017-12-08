@@ -28,21 +28,25 @@
   <thead>
   <tr>
     <th>#</th>
-    <th>Bulan</th>
-    <th>Hasil Probabilitas</th>
-    <th>Probabilitas Tertinggi</th>
-    <th>Qty</th>
+    <th>Tahun Mulai</th>
+    <th>Tahun Berakhir</th>
+    <th>Total Qty Pada Jangka</th>
+    <th>Aksi</th>
   </tr>
   </thead>
 
   <tbody>
-    <?php $count = 1; foreach ($get_result_by_rule as $item) { ?>
+    <?php $count = 1; foreach ($rule_list as $item) { ?>
       <tr>
         <td><?=$count?></td>
-        <td><?=$item['bulan']?></td>
-        <td><?=$item['hasil_probabilitas']?></td>
-        <td><?=$item['probabilitas_tertinggi']?></td>
-        <td><?=$item['qty']?></td>
+        <td><?=$item['year_start']?></td>
+        <td><?=$item['year_end']?></td>
+        <td><?=$item['total_qty']?></td>
+        <td>
+        	<a class="btn btn-primary" href="<?=base_url()?>backoffice/analyst/show_by_year/<?=$item['year_start']?>/<?=$item['year_end']?>"><i class="fa fa-gears"></i> Analisa</a>
+        	|
+        	<a class="btn btn-success" href="<?=base_url()?>backoffice/laporan/<?=$item['year_start']?>/<?=$item['year_end']?>"><i class="fa fa-book"></i> Laporan</a>
+        </td>
       </tr>
     <?php $count++; } ?>
     
@@ -51,10 +55,10 @@
   <tfoot>
   <tr>
     <th>#</th>
-    <th>Bulan</th>
-    <th>Hasil Probabilitas</th>
-    <th>Probabilitas Tertinggi</th>
-    <th>Qty</th>
+    <th>Tahun Mulai</th>
+    <th>Tahun Berakhir</th>
+    <th>Total Qty Pada Jangka</th>
+    <th>Aksi</th>
   </tr>
   </tfoot>
 </table>
@@ -62,9 +66,6 @@
 
   </div>
   <!-- /.box-body -->
-  <div class="box-footer clearfix no-border">
-    <a href="<?=$prev_step?>" class="btn btn-warning pull-left">&laquo;  Previous </a>
-  </div>
 </div>
 <!-- /.box -->
 <script src="<?= base_url() ?>assets/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>

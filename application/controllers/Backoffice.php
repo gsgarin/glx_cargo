@@ -248,6 +248,7 @@ class Backoffice extends CI_Controller {
 										'kota'	=> $detail_data['kota'],
 										'bulan' => $data['month'][$param4],
 										'hasil_probabilitas' => $hasil_probabilitas,
+										'probabilitas_tertinggi' => $max_value,
 										'qty' => $qty_by_high,
 									);
 					$is_there_result = $this->items->is_there_result($data_result);
@@ -269,10 +270,36 @@ class Backoffice extends CI_Controller {
 
 
 			}
-			$this->crud->set_table('raw_data');
+			$this->load->view('backend/admin_master', $data);
+		}else{
+			redirect('backoffice/index');
+		}
+	}
 
+	public function laporan($year_start = null, $year_end = null)
+	{
+		if ($this->is_logged_in() == true) 
+		{
+			$data['var_title'] = APP_NAME;
+			$data['module_name'] = "laporan";
+			$data['additional_css'] = "blank";
+			$data['additional_js'] = "blank";
+			$data['page'] = "laporan_option";
+			$data['page_name'] = "Pilih Hasil Analis";	
+			$detail_user = array('uname' => $this->session->userdata('user_username'));
+			$getUserInfo = $this->users->getAdminInfo($detail_user);
+			$data['nama_user'] = $getUserInfo['nama_lengkap'];
+
+			$data['rule_list'] = $this->items->get_rule_list();
+
+
+
+
+
+			/*$this->crud->set_table('raw_data');
 			$output = $this->crud->render();  
-			$data['output'] = $output;  
+			$data['output'] = $output;  */
+
 			$this->load->view('backend/admin_master', $data);
 		}else{
 			redirect('backoffice/index');
