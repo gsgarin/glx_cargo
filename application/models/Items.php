@@ -145,4 +145,12 @@ class Items extends CI_Model{
         return $query->result_array();
 
     }
+
+    function count_result($rule_id)
+    {
+        $this->db->select('*');
+        $this->db->where('rule_id', $rule_id);
+        $this->db->from('result_analyst');
+        return $this->db->count_all_results();
+    }
 } 
