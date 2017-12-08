@@ -31,7 +31,7 @@
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-image: url('<?=base_url()?>assets/adminlte/dist/img/background.jpg'); background-size: 100%;">
 
     <!-- Main content -->
     <section class="content">
