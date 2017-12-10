@@ -18,7 +18,9 @@
   </div>
   <!-- /.box-header -->
   <div class="box-body">
-    Total akumulasi qty dari data tahun <?=$startYear?> sampai tahun <?=$endYear?> = <?=$total_qty?>
+    <b>Jumlah data</b> dari data tahun <?=$startYear?> sampai tahun <?=$endYear?> =  <b><?=$count_data_rule?> data</b>
+    <br><br>
+    <b>Total akumulasi qty</b> dari data tahun <?=$startYear?> sampai tahun <?=$endYear?> = <b><?=$total_qty?></b>
     <br><br><br>
     
 

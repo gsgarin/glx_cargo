@@ -218,6 +218,7 @@ class Backoffice extends CI_Controller {
 												'bayes' => ($cityByQty/$detail_rule['total_qty'])*$bagi_kota_qty*$bagi_bulan_qty,
 											];
 					}
+					$data['count_data_rule'] = $this->items->count_data_rule($param1, $param2);
 					$data['page'] = "show_by_month";	
 					$data['page_name'] = "Menampilkan data bulan ". $data['month'][$param4]. " pada kota ".$detail_data['kota'];	
 					$data['total_qty'] = $detail_rule['total_qty'];
