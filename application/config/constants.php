@@ -86,4 +86,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 define('APP_NAME', 'PT. GLX Kargo Logistik - Data Classifier');
 define('INITIAL', 'G<b>L</b>X');
-define('APP_VERSION', 'Alpha [1.0.3]');
+define('APP_VERSION', 'Alpha [1.4.3]');
